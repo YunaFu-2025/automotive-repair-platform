@@ -170,7 +170,7 @@ export default function HomePage() {
               </Link>
               <div className="flex items-center space-x-2 text-sm text-gray-600">
                 <User className="w-4 h-4" />
-                <span>tech_zhang_01</span>
+                <span>tech support</span>
               </div>
             </div>
           </div>

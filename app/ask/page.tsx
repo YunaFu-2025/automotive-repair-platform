@@ -205,7 +205,7 @@ export default function AskQuestionPage() {
               <h1 className="text-xl font-bold text-gray-900">AutoTech Q&A</h1>
             </Link>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <span>tech_zhang_01</span>
+              <span>tech support</span>
             </div>
           </div>
         </div>
