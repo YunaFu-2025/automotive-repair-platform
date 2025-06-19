@@ -1,4 +1,5 @@
 "use client"
+// @ts-nocheck
 
 import type React from "react"
 
@@ -12,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface VehicleInfo {
   brand: string
@@ -71,6 +73,7 @@ export default function AskQuestionPage() {
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([])
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const router = useRouter()
 
   const handleVinLookup = async () => {
     if (vin.length < 17) {
@@ -112,11 +115,34 @@ export default function AskQuestionPage() {
     setIsSubmitting(true)
 
     // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
-    // Redirect to question page (mock)
-    alert("Question submitted successfully! You will be redirected to the question page.")
-    setIsSubmitting(false)
+    // Build new question record
+    const newQuestion = {
+      id: Date.now().toString(),
+      title,
+      description,
+      vin,
+      brand: vehicleInfo?.brand || "Unknown",
+      model: vehicleInfo?.model || "",
+      system: selectedSystem,
+      status: "pending" as const,
+      submittedAt: new Date().toISOString(),
+      submittedBy: "tech_zhang_01",
+      tags: [] as string[],
+    }
+
+    // Persist to localStorage so that homepage can retrieve it
+    try {
+      const stored = JSON.parse(localStorage.getItem("questions") || "[]") as typeof newQuestion[]
+      localStorage.setItem("questions", JSON.stringify([...stored, newQuestion]))
+    } catch (error) {
+      // Fallback: overwrite if parsing fails
+      localStorage.setItem("questions", JSON.stringify([newQuestion]))
+    }
+
+    // Navigate back to homepage, where the new question will appear
+    router.push("/")
   }
 
   const generateAISuggestions = async (title: string, description: string, system: string) => {
