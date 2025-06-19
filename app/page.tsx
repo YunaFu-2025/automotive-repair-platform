@@ -67,7 +67,9 @@ export default function HomePage() {
   useEffect(() => {
     const stored: Question[] =
       typeof window !== "undefined" ? (JSON.parse(localStorage.getItem("questions") || "[]") as Question[]) : []
-    const combined = [...mockQuestions, ...stored]
+    const combined = [...mockQuestions, ...stored].sort(
+      (a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime(),
+    )
     setQuestions(combined)
     setFilteredQuestions(combined)
   }, [])
@@ -95,7 +97,7 @@ export default function HomePage() {
   }
 
   const filterQuestions = (search: string, brand: string, system: string, status: string) => {
-    let filtered = questions
+    let filtered = [...questions]
 
     if (search) {
       filtered = filtered.filter(
@@ -119,6 +121,8 @@ export default function HomePage() {
       filtered = filtered.filter((q: Question) => q.status === status)
     }
 
+    // Sort by submittedAt descending
+    filtered.sort((a, b) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime())
     setFilteredQuestions(filtered)
   }
 
