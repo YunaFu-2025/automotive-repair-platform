@@ -1,9 +1,9 @@
 "use client"
-// @ts-nocheck
 
-import type React from "react"
+import * as React from "react"
+import { useState, type ChangeEvent, type FormEvent } from "react"
+import type { Question } from "@/lib/types"
 
-import { useState } from "react"
 import { Car, Upload, X, CheckCircle, Loader2, Bot } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -101,7 +101,7 @@ export default function AskQuestionPage() {
     }
   }
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
     setUploadedFiles((prev) => [...prev, ...files])
   }
@@ -110,7 +110,7 @@ export default function AskQuestionPage() {
     setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
@@ -118,7 +118,7 @@ export default function AskQuestionPage() {
     await new Promise((resolve) => setTimeout(resolve, 1500))
 
     // Build new question record
-    const newQuestion = {
+    const newQuestion: Question = {
       id: Date.now().toString(),
       title,
       description,
@@ -126,15 +126,15 @@ export default function AskQuestionPage() {
       brand: vehicleInfo?.brand || "Unknown",
       model: vehicleInfo?.model || "",
       system: selectedSystem,
-      status: "pending" as const,
+      status: "pending",
       submittedAt: new Date().toISOString(),
       submittedBy: "tech_zhang_01",
-      tags: [] as string[],
+      tags: [],
     }
 
     // Persist to localStorage so that homepage can retrieve it
     try {
-      const stored = JSON.parse(localStorage.getItem("questions") || "[]") as typeof newQuestion[]
+      const stored = JSON.parse(localStorage.getItem("questions") || "[]") as Question[]
       localStorage.setItem("questions", JSON.stringify([...stored, newQuestion]))
     } catch (error) {
       // Fallback: overwrite if parsing fails

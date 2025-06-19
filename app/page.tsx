@@ -1,5 +1,4 @@
 "use client"
-// @ts-nocheck
 
 import React, { useState, useEffect } from "react"
 import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from "lucide-react"
@@ -10,20 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 
-interface Question {
-  id: string
-  title: string
-  description: string
-  vin: string
-  brand: string
-  model: string
-  system: string
-  status: "answered" | "pending" | "ai-assisted"
-  submittedAt: string
-  submittedBy: string
-  answeredBy?: string
-  tags: string[]
-}
+import type { Question } from "@/lib/types"
 
 const mockQuestions: Question[] = [
   {
@@ -79,19 +65,20 @@ export default function HomePage() {
 
   // Load persisted questions from localStorage on initial render
   useEffect(() => {
-    const stored = typeof window !== "undefined" ? JSON.parse(localStorage.getItem("questions") || "[]") : []
+    const stored: Question[] =
+      typeof window !== "undefined" ? (JSON.parse(localStorage.getItem("questions") || "[]") as Question[]) : []
     const combined = [...mockQuestions, ...stored]
     setQuestions(combined)
     setFilteredQuestions(combined)
   }, [])
 
-  const highlightText = (text: string, query: string) => {
+  const highlightText = (text: string, query: string): React.ReactNode => {
     if (!query.trim()) return text
 
     const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi")
     const parts = text.split(regex)
 
-    return parts.map((part, index) =>
+    return parts.map((part: string, index: number) =>
       regex.test(part) ? (
         <mark key={index} className="bg-yellow-200 px-1 rounded">
           {part}
@@ -273,7 +260,7 @@ export default function HomePage() {
 
         {/* Questions List */}
         <div className="space-y-4">
-          {filteredQuestions.map((question) => (
+          {filteredQuestions.map((question: Question) => (
             <Card key={question.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
@@ -323,7 +310,7 @@ export default function HomePage() {
                   <Badge variant="outline" className="text-xs">
                     {question.system}
                   </Badge>
-                  {question.tags.map((tag) => (
+                  {question.tags.map((tag: string) => (
                     <Badge key={tag} variant="secondary" className="text-xs">
                       <Tag className="w-3 h-3 mr-1" />
                       {searchQuery ? highlightText(tag, searchQuery) : tag}
