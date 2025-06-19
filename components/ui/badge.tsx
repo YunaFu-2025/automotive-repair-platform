@@ -25,10 +25,11 @@ const badgeVariants = cva(
 
 export interface BadgeProps
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof badgeVariants> {}
+    VariantProps<typeof badgeVariants> {
+  variant?: VariantProps<typeof badgeVariants>["variant"]
+}
 
 const Badge = React.forwardRef<HTMLDivElement, BadgeProps>((props: BadgeProps, ref: React.ForwardedRef<HTMLDivElement>) => {
-  // @ts-expect-error – className and variant are provided via BadgeProps intersection types
   const { className, variant, ...rest } = props
   return <div ref={ref} className={cn(badgeVariants({ variant }), className)} {...rest} />
 })
