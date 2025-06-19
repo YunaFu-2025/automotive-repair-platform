@@ -212,7 +212,7 @@ export default function QuestionPage() {
 
                 <div className="flex flex-wrap gap-2 mt-3">
                   <Badge variant="outline">{mockQuestion.system}</Badge>
-                  {mockQuestion.tags.map((tag) => (
+                  {mockQuestion.tags.map((tag: string) => (
                     <Badge key={tag} variant="secondary">
                       {tag}
                     </Badge>
@@ -233,7 +233,7 @@ export default function QuestionPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-6">
-                {messages.map((message) => (
+                {messages.map((message: Message) => (
                   <div key={message.id} className="flex space-x-4">
                     <Avatar>
                       <AvatarFallback className={getRoleColor(message.role)}>
@@ -255,7 +255,7 @@ export default function QuestionPage() {
 
                         {message.attachments && (
                           <div className="mt-3 flex flex-wrap gap-2">
-                            {message.attachments.map((attachment, index) => (
+                            {message.attachments.map((attachment: string, index: number) => (
                               <div
                                 key={index}
                                 className="flex items-center space-x-1 text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded"
@@ -319,7 +319,7 @@ export default function QuestionPage() {
                       {/* Uploaded Files Display */}
                       {replyAttachments.length > 0 && (
                         <div className="space-y-2">
-                          {replyAttachments.map((file, index) => (
+                          {replyAttachments.map((file: File, index: number) => (
                             <div
                               key={index}
                               className="flex items-center justify-between p-2 bg-gray-50 rounded text-sm"
@@ -365,7 +365,7 @@ export default function QuestionPage() {
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
-                {mockAISuggestions.map((suggestion) => (
+                {mockAISuggestions.map((suggestion: AIsuggestion) => (
                   <Alert key={suggestion.id} className="border-blue-200 bg-blue-50">
                     <Bot className="w-4 h-4 text-blue-600" />
                     <AlertDescription>

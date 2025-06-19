@@ -1,7 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-// @ts-ignore - React types are provided globally via @types/react
 import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -99,7 +98,6 @@ export default function HomePage() {
   // Whenever questions or any filters change, re-run filtering
   useEffect(() => {
     filterQuestions(searchQuery, brandFilter, systemFilter, statusFilter)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questions])
 
   const highlightText = (text: string, query: string) => {
@@ -290,7 +288,7 @@ export default function HomePage() {
 
         {/* Questions List */}
         <div className="space-y-4">
-          {filteredQuestions.map((question) => (
+          {filteredQuestions.map((question: Question) => (
             <Card key={question.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
@@ -340,7 +338,7 @@ export default function HomePage() {
                   <Badge variant="outline" className="text-xs">
                     {question.system}
                   </Badge>
-                  {question.tags.map((tag) => (
+                  {question.tags.map((tag: string) => (
                     <Badge key={tag} variant="secondary" className="text-xs">
                       <Tag className="w-3 h-3 mr-1" />
                       {searchQuery ? highlightText(tag, searchQuery) : tag}

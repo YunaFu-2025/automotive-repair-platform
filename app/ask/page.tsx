@@ -339,7 +339,7 @@ export default function AskQuestionPage() {
                         <SelectValue placeholder="Select affected system" />
                       </SelectTrigger>
                       <SelectContent>
-                        {vehicleInfo?.system.map((sys) => (
+                        {vehicleInfo?.system.map((sys: string) => (
                           <SelectItem key={sys} value={sys}>
                             {sys}
                           </SelectItem>
@@ -395,7 +395,7 @@ export default function AskQuestionPage() {
                             </div>
                           ) : (
                             <div className="space-y-3">
-                              {aiSuggestions.map((suggestion, index) => (
+                              {aiSuggestions.map((suggestion: string, index: number) => (
                                 <div key={index} className="flex items-start space-x-2">
                                   <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
                                   <p className="text-sm text-blue-800">{suggestion}</p>
@@ -446,7 +446,7 @@ export default function AskQuestionPage() {
 
               {uploadedFiles.length > 0 && (
                 <div className="mt-4 space-y-2">
-                  {uploadedFiles.map((file, index) => (
+                  {uploadedFiles.map((file: File, index: number) => (
                     <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                       <span className="text-sm text-gray-700">{file.name}</span>
                       <Button type="button" variant="ghost" size="sm" onClick={() => removeFile(index)}>
