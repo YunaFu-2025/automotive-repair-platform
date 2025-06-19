@@ -1,7 +1,6 @@
 "use client"
 
-import * as React from "react"
-import { useState, type ChangeEvent, type FormEvent } from "react"
+import React, { useState, type ChangeEvent, type FormEvent } from "react"
 import type { Question } from "@/lib/types"
 
 import { Car, Upload, X, CheckCircle, Loader2, Bot } from "lucide-react"
@@ -102,12 +101,12 @@ export default function AskQuestionPage() {
   }
 
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || [])
-    setUploadedFiles((prev) => [...prev, ...files])
+    const files: File[] = Array.from(event.target.files || [])
+    setUploadedFiles((prev: File[]) => [...prev, ...files])
   }
 
   const removeFile = (index: number) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
+    setUploadedFiles((prev: File[]) => prev.filter((_, i) => i !== index))
   }
 
   const handleSubmit = async (e: FormEvent) => {
