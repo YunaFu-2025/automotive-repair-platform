@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface VehicleInfo {
   brand: string
@@ -71,6 +72,7 @@ export default function AskQuestionPage() {
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([])
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const router = useRouter()
 
   const handleVinLookup = async () => {
     if (vin.length < 17) {
@@ -111,12 +113,35 @@ export default function AskQuestionPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Simulate processing delay
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
-    // Redirect to question page (mock)
-    alert("Question submitted successfully! You will be redirected to the question page.")
+    // Build the new question object to persist
+    const newQuestion = {
+      id: Date.now().toString(),
+      title,
+      description,
+      vin,
+      brand: vehicleInfo?.brand || "",
+      model: vehicleInfo?.model || "",
+      system: selectedSystem,
+      status: "pending" as const,
+      submittedAt: new Date().toISOString(),
+      submittedBy: "tech_zhang_01",
+      tags: [],
+    }
+
+    try {
+      const stored = JSON.parse(localStorage.getItem("questions") || "[]") as any[]
+      localStorage.setItem("questions", JSON.stringify([...stored, newQuestion]))
+    } catch (err) {
+      console.error("Failed to save question:", err)
+    }
+
     setIsSubmitting(false)
+
+    // Navigate back to list page so the new record is visible
+    router.push("/")
   }
 
   const generateAISuggestions = async (title: string, description: string, system: string) => {

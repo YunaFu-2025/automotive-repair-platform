@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -73,7 +73,17 @@ export default function HomePage() {
   const [brandFilter, setBrandFilter] = useState("")
   const [systemFilter, setSystemFilter] = useState("")
   const [statusFilter, setStatusFilter] = useState("")
-  const [filteredQuestions, setFilteredQuestions] = useState(mockQuestions)
+
+  const [allQuestions, setAllQuestions] = useState<Question[]>([])
+  const [filteredQuestions, setFilteredQuestions] = useState<Question[]>([])
+
+  // Load persisted questions from localStorage on mount
+  useEffect(() => {
+    const stored = JSON.parse(localStorage.getItem("questions") || "[]") as Question[]
+    const combined = [...mockQuestions, ...stored]
+    setAllQuestions(combined)
+    setFilteredQuestions(combined)
+  }, [])
 
   const highlightText = (text: string, query: string) => {
     if (!query.trim()) return text
@@ -98,28 +108,28 @@ export default function HomePage() {
   }
 
   const filterQuestions = (search: string, brand: string, system: string, status: string) => {
-    let filtered = mockQuestions
+    let filtered = allQuestions
 
     if (search) {
       filtered = filtered.filter(
-        (q) =>
+        (q: Question) =>
           q.title.toLowerCase().includes(search.toLowerCase()) ||
           q.description.toLowerCase().includes(search.toLowerCase()) ||
           q.vin.toLowerCase().includes(search.toLowerCase()) ||
-          q.tags.some((tag) => tag.toLowerCase().includes(search.toLowerCase())),
+          q.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())),
       )
     }
 
     if (brand) {
-      filtered = filtered.filter((q) => q.brand === brand)
+      filtered = filtered.filter((q: Question) => q.brand === brand)
     }
 
     if (system) {
-      filtered = filtered.filter((q) => q.system === system)
+      filtered = filtered.filter((q: Question) => q.system === system)
     }
 
     if (status) {
-      filtered = filtered.filter((q) => q.status === status)
+      filtered = filtered.filter((q: Question) => q.status === status)
     }
 
     setFilteredQuestions(filtered)
@@ -253,7 +263,7 @@ export default function HomePage() {
                 setBrandFilter("")
                 setSystemFilter("")
                 setStatusFilter("")
-                setFilteredQuestions(mockQuestions)
+                setFilteredQuestions(allQuestions)
               }}
             >
               Clear Filters
