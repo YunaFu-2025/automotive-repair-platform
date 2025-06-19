@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -9,20 +9,7 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 
-interface Question {
-  id: string
-  title: string
-  description: string
-  vin: string
-  brand: string
-  model: string
-  system: string
-  status: "answered" | "pending" | "ai-assisted"
-  submittedAt: string
-  submittedBy: string
-  answeredBy?: string
-  tags: string[]
-}
+import type { Question } from "@/lib/types"
 
 const mockQuestions: Question[] = [
   {
@@ -73,15 +60,25 @@ export default function HomePage() {
   const [brandFilter, setBrandFilter] = useState("")
   const [systemFilter, setSystemFilter] = useState("")
   const [statusFilter, setStatusFilter] = useState("")
-  const [filteredQuestions, setFilteredQuestions] = useState(mockQuestions)
+  const [questions, setQuestions] = useState<Question[]>([])
+  const [filteredQuestions, setFilteredQuestions] = useState<Question[]>([])
 
-  const highlightText = (text: string, query: string) => {
+  // Load persisted questions from localStorage on initial render
+  useEffect(() => {
+    const stored: Question[] =
+      typeof window !== "undefined" ? (JSON.parse(localStorage.getItem("questions") || "[]") as Question[]) : []
+    const combined = [...mockQuestions, ...stored]
+    setQuestions(combined)
+    setFilteredQuestions(combined)
+  }, [])
+
+  const highlightText = (text: string, query: string): React.ReactNode => {
     if (!query.trim()) return text
 
     const regex = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")})`, "gi")
     const parts = text.split(regex)
 
-    return parts.map((part, index) =>
+    return parts.map((part: string, index: number) =>
       regex.test(part) ? (
         <mark key={index} className="bg-yellow-200 px-1 rounded">
           {part}
@@ -98,28 +95,28 @@ export default function HomePage() {
   }
 
   const filterQuestions = (search: string, brand: string, system: string, status: string) => {
-    let filtered = mockQuestions
+    let filtered = questions
 
     if (search) {
       filtered = filtered.filter(
-        (q) =>
+        (q: Question) =>
           q.title.toLowerCase().includes(search.toLowerCase()) ||
           q.description.toLowerCase().includes(search.toLowerCase()) ||
           q.vin.toLowerCase().includes(search.toLowerCase()) ||
-          q.tags.some((tag) => tag.toLowerCase().includes(search.toLowerCase())),
+          q.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())),
       )
     }
 
     if (brand) {
-      filtered = filtered.filter((q) => q.brand === brand)
+      filtered = filtered.filter((q: Question) => q.brand === brand)
     }
 
     if (system) {
-      filtered = filtered.filter((q) => q.system === system)
+      filtered = filtered.filter((q: Question) => q.system === system)
     }
 
     if (status) {
-      filtered = filtered.filter((q) => q.status === status)
+      filtered = filtered.filter((q: Question) => q.status === status)
     }
 
     setFilteredQuestions(filtered)
@@ -253,7 +250,7 @@ export default function HomePage() {
                 setBrandFilter("")
                 setSystemFilter("")
                 setStatusFilter("")
-                setFilteredQuestions(mockQuestions)
+                setFilteredQuestions(questions)
               }}
             >
               Clear Filters
@@ -263,7 +260,7 @@ export default function HomePage() {
 
         {/* Questions List */}
         <div className="space-y-4">
-          {filteredQuestions.map((question) => (
+          {filteredQuestions.map((question: Question) => (
             <Card key={question.id} className="hover:shadow-md transition-shadow">
               <CardHeader className="pb-3">
                 <div className="flex justify-between items-start">
@@ -313,7 +310,7 @@ export default function HomePage() {
                   <Badge variant="outline" className="text-xs">
                     {question.system}
                   </Badge>
-                  {question.tags.map((tag) => (
+                  {question.tags.map((tag: string) => (
                     <Badge key={tag} variant="secondary" className="text-xs">
                       <Tag className="w-3 h-3 mr-1" />
                       {searchQuery ? highlightText(tag, searchQuery) : tag}

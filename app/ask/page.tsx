@@ -1,8 +1,8 @@
 "use client"
 
-import type React from "react"
+import React, { useState, type ChangeEvent, type FormEvent } from "react"
+import type { Question } from "@/lib/types"
 
-import { useState } from "react"
 import { Car, Upload, X, CheckCircle, Loader2, Bot } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface VehicleInfo {
   brand: string
@@ -71,6 +72,7 @@ export default function AskQuestionPage() {
   const [aiSuggestions, setAiSuggestions] = useState<string[]>([])
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
+  const router = useRouter()
 
   const handleVinLookup = async () => {
     if (vin.length < 17) {
@@ -98,25 +100,48 @@ export default function AskQuestionPage() {
     }
   }
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.target.files || [])
-    setUploadedFiles((prev) => [...prev, ...files])
+  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const files: File[] = Array.from(event.target.files || [])
+    setUploadedFiles((prev: File[]) => [...prev, ...files])
   }
 
   const removeFile = (index: number) => {
-    setUploadedFiles((prev) => prev.filter((_, i) => i !== index))
+    setUploadedFiles((prev: File[]) => prev.filter((_, i) => i !== index))
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
     // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    await new Promise((resolve) => setTimeout(resolve, 1500))
 
-    // Redirect to question page (mock)
-    alert("Question submitted successfully! You will be redirected to the question page.")
-    setIsSubmitting(false)
+    // Build new question record
+    const newQuestion: Question = {
+      id: Date.now().toString(),
+      title,
+      description,
+      vin,
+      brand: vehicleInfo?.brand || "Unknown",
+      model: vehicleInfo?.model || "",
+      system: selectedSystem,
+      status: "pending",
+      submittedAt: new Date().toISOString(),
+      submittedBy: "tech_zhang_01",
+      tags: [],
+    }
+
+    // Persist to localStorage so that homepage can retrieve it
+    try {
+      const stored = JSON.parse(localStorage.getItem("questions") || "[]") as Question[]
+      localStorage.setItem("questions", JSON.stringify([...stored, newQuestion]))
+    } catch (error) {
+      // Fallback: overwrite if parsing fails
+      localStorage.setItem("questions", JSON.stringify([newQuestion]))
+    }
+
+    // Navigate back to homepage, where the new question will appear
+    router.push("/")
   }
 
   const generateAISuggestions = async (title: string, description: string, system: string) => {
