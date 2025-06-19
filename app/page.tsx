@@ -1,6 +1,7 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+// @ts-ignore - React types are provided globally via @types/react
 import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -68,12 +69,38 @@ const mockQuestions: Question[] = [
   },
 ]
 
+// Key used to persist questions authored by the user
+const LOCAL_STORAGE_KEY = "questions"
+
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [brandFilter, setBrandFilter] = useState("")
   const [systemFilter, setSystemFilter] = useState("")
   const [statusFilter, setStatusFilter] = useState("")
-  const [filteredQuestions, setFilteredQuestions] = useState(mockQuestions)
+
+  // All questions including the built-in mocks and any user-submitted ones.
+  const [questions, setQuestions] = useState<Question[]>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(LOCAL_STORAGE_KEY)
+        if (stored) {
+          const parsed: Question[] = JSON.parse(stored)
+          return [...parsed, ...mockQuestions]
+        }
+      } catch (err) {
+        console.error("Failed to parse stored questions", err)
+      }
+    }
+    return [...mockQuestions]
+  })
+
+  const [filteredQuestions, setFilteredQuestions] = useState<Question[]>(questions)
+
+  // Whenever questions or any filters change, re-run filtering
+  useEffect(() => {
+    filterQuestions(searchQuery, brandFilter, systemFilter, statusFilter)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [questions])
 
   const highlightText = (text: string, query: string) => {
     if (!query.trim()) return text
@@ -98,28 +125,28 @@ export default function HomePage() {
   }
 
   const filterQuestions = (search: string, brand: string, system: string, status: string) => {
-    let filtered = mockQuestions
+    let filtered = questions
 
     if (search) {
       filtered = filtered.filter(
-        (q) =>
+        (q: Question) =>
           q.title.toLowerCase().includes(search.toLowerCase()) ||
           q.description.toLowerCase().includes(search.toLowerCase()) ||
           q.vin.toLowerCase().includes(search.toLowerCase()) ||
-          q.tags.some((tag) => tag.toLowerCase().includes(search.toLowerCase())),
+          q.tags.some((tag: string) => tag.toLowerCase().includes(search.toLowerCase())),
       )
     }
 
     if (brand) {
-      filtered = filtered.filter((q) => q.brand === brand)
+      filtered = filtered.filter((q: Question) => q.brand === brand)
     }
 
     if (system) {
-      filtered = filtered.filter((q) => q.system === system)
+      filtered = filtered.filter((q: Question) => q.system === system)
     }
 
     if (status) {
-      filtered = filtered.filter((q) => q.status === status)
+      filtered = filtered.filter((q: Question) => q.status === status)
     }
 
     setFilteredQuestions(filtered)
@@ -253,7 +280,7 @@ export default function HomePage() {
                 setBrandFilter("")
                 setSystemFilter("")
                 setStatusFilter("")
-                setFilteredQuestions(mockQuestions)
+                setFilteredQuestions(questions)
               }}
             >
               Clear Filters
