@@ -1,6 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
+import type { ChangeEvent } from "react"
 import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -203,7 +204,7 @@ export default function HomePage() {
               placeholder="Search by keywords, VIN, or issue description..."
               className="pl-10 pr-4 py-3 text-lg"
               value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
             />
           </div>
         </div>

@@ -23,8 +23,18 @@ declare module "react" {
     deps?: any[]
   ): void
 
-  export type ChangeEvent<T = any> = any
-  export type FormEvent<T = any> = any
+  export type ChangeEvent<T = Element> = {
+    target: T & EventTarget
+    currentTarget: T & EventTarget
+    // allow other props
+    [key: string]: any
+  }
+  export type FormEvent<T = Element> = {
+    target: T & EventTarget
+    currentTarget: T & EventTarget
+    preventDefault: () => void
+    [key: string]: any
+  }
 
   export default {
     createElement,

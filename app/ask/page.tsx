@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import type { ChangeEvent } from "react"
 
 import { useState } from "react"
 import { Car, Upload, X, CheckCircle, Loader2, Bot } from "lucide-react"
@@ -100,7 +101,7 @@ export default function AskQuestionPage() {
     }
   }
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
     setUploadedFiles((prev) => [...prev, ...files])
   }
@@ -260,7 +261,7 @@ export default function AskQuestionPage() {
                   <Input
                     id="vin"
                     value={vin}
-                    onChange={(e) => setVin(e.target.value.toUpperCase())}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) => setVin(e.target.value.toUpperCase())}
                     placeholder="Enter 17-character VIN"
                     maxLength={17}
                     className="font-mono"
@@ -319,7 +320,7 @@ export default function AskQuestionPage() {
                     <Input
                       id="title"
                       value={title}
-                      onChange={(e) => handleInputChange("title", e.target.value)}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) => handleInputChange("title", e.target.value)}
                       placeholder="Brief description of the issue"
                       required
                     />
@@ -360,7 +361,7 @@ export default function AskQuestionPage() {
                     <Textarea
                       id="description"
                       value={description}
-                      onChange={(e) => handleInputChange("description", e.target.value)}
+                      onChange={(e: ChangeEvent<HTMLTextAreaElement>) => handleInputChange("description", e.target.value)}
                       placeholder="Provide detailed information about:
 • Symptoms observed
 • When the issue occurs

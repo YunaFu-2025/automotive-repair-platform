@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import type { ChangeEvent } from "react"
 
 import { useState } from "react"
 import { Car, User, Bot, Clock, ThumbsUp, MessageCircle, Lightbulb, FileText, ImageIcon, Upload, X } from "lucide-react"
@@ -110,7 +111,7 @@ export default function QuestionPage() {
   const [messages, setMessages] = useState(mockMessages)
   const [replyAttachments, setReplyAttachments] = useState<File[]>([])
 
-  const handleSubmitMessage = (e: React.FormEvent) => {
+  const handleSubmitMessage = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!newMessage.trim()) return
 
@@ -128,7 +129,7 @@ export default function QuestionPage() {
     setReplyAttachments([])
   }
 
-  const handleReplyFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleReplyFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || [])
     setReplyAttachments((prev) => [...prev, ...files])
   }
@@ -293,7 +294,7 @@ export default function QuestionPage() {
                     <div className="flex-1 space-y-3">
                       <Textarea
                         value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
+                        onChange={(e: ChangeEvent<HTMLTextAreaElement>) => setNewMessage(e.target.value)}
                         placeholder="Provide additional technical guidance or ask follow-up questions..."
                         rows={4}
                       />
@@ -319,7 +320,7 @@ export default function QuestionPage() {
                       {/* Uploaded Files Display */}
                       {replyAttachments.length > 0 && (
                         <div className="space-y-2">
-                          {replyAttachments.map((file, index) => (
+                          {replyAttachments.map((file: File, index: number) => (
                             <div
                               key={index}
                               className="flex items-center justify-between p-2 bg-gray-50 rounded text-sm"
