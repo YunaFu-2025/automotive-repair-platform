@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 
 interface VehicleInfo {
   brand: string
@@ -72,6 +73,8 @@ export default function AskQuestionPage() {
   const [isGeneratingSuggestions, setIsGeneratingSuggestions] = useState(false)
   const [showSuggestions, setShowSuggestions] = useState(false)
 
+  const router = useRouter()
+
   const handleVinLookup = async () => {
     if (vin.length < 17) {
       setVinError("VIN must be 17 characters long")
@@ -111,12 +114,36 @@ export default function AskQuestionPage() {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    // Build a new question object
+    const newQuestion = {
+      id: Date.now().toString(),
+      title,
+      description,
+      vin,
+      brand: vehicleInfo?.brand || "",
+      model: vehicleInfo?.model || "",
+      system: selectedSystem,
+      status: "pending" as const,
+      submittedAt: new Date().toISOString(),
+      submittedBy: "tech_zhang_01",
+      answeredBy: undefined,
+      tags: [] as string[],
+    }
 
-    // Redirect to question page (mock)
-    alert("Question submitted successfully! You will be redirected to the question page.")
+    try {
+      const stored = JSON.parse(localStorage.getItem("questions") || "[]") as any[]
+      stored.push(newQuestion)
+      localStorage.setItem("questions", JSON.stringify(stored))
+    } catch (error) {
+      // If parsing fails, overwrite with current question
+      localStorage.setItem("questions", JSON.stringify([newQuestion]))
+    }
+
+    // Brief delay to simulate network latency
+    await new Promise((resolve) => setTimeout(resolve, 800))
+
     setIsSubmitting(false)
+    router.push("/")
   }
 
   const generateAISuggestions = async (title: string, description: string, system: string) => {
