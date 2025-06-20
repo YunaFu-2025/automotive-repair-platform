@@ -242,7 +242,7 @@ export default function QuestionPage() {
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center space-x-2">
                           <span className="font-medium text-sm">{message.author}</span>
-                          <Badge className={getRoleColor(message.role)} size="sm">
+                          <Badge className={`${getRoleColor(message.role)} text-xxs`}>
                             {message.role === "engineer" ? "工程师" : 
                              message.role === "technician" ? "技师" : 
                              message.role === "ai" ? "AI" : message.role}
@@ -256,7 +256,7 @@ export default function QuestionPage() {
                         </div>
                         {message.attachments && message.attachments.length > 0 && (
                           <div className="flex flex-wrap gap-2 mt-3">
-                            {message.attachments.map((attachment, index) => (
+                            {message.attachments.map((attachment: string, index: number) => (
                               <div
                                 key={index}
                                 className="flex items-center space-x-1 px-2 py-1 bg-gray-100 rounded text-xs"
@@ -287,7 +287,7 @@ export default function QuestionPage() {
                       id="reply"
                       placeholder="输入您的回复..."
                       value={newMessage}
-                      onChange={(e) => setNewMessage(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNewMessage(e.target.value)}
                       rows={4}
                     />
                   </div>
@@ -315,7 +315,7 @@ export default function QuestionPage() {
                     {replyAttachments.length > 0 && (
                       <div className="space-y-2">
                         <p className="text-sm font-medium">已上传文件:</p>
-                        {replyAttachments.map((file, index) => (
+                        {replyAttachments.map((file: File, index: number) => (
                           <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
                             <span className="text-sm">{file.name}</span>
                             <Button
@@ -364,7 +364,7 @@ export default function QuestionPage() {
                             ? "secondary"
                             : "outline"
                         }
-                        size="sm"
+                        className="text-xxs"
                       >
                         {suggestion.type === "diagnostic" ? "诊断" : 
                          suggestion.type === "reference" ? "参考" : 

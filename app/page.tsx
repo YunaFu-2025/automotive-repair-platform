@@ -5,11 +5,15 @@ import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
+import { Badge as RawBadge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 
 import type { Question } from "@/lib/types"
+import type { BadgeProps } from "@/components/ui/badge"
+
+// Provide fully typed alias that allows variant & className props
+const Badge: React.FC<BadgeProps> = (props: BadgeProps) => <RawBadge {...props} />
 
 const mockQuestions: Question[] = [
   {
@@ -73,6 +77,14 @@ export default function HomePage() {
     setQuestions(combined)
     setFilteredQuestions(combined)
   }, [])
+
+  // NEW_FILTER_EFFECT_START
+  // Automatically apply filters whenever search query or any filter changes
+  useEffect(() => {
+    filterQuestions(searchQuery, brandFilter, systemFilter, statusFilter)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [searchQuery, brandFilter, systemFilter, statusFilter, questions])
+  // NEW_FILTER_EFFECT_END
 
   const highlightText = (text: string, query: string): React.ReactNode => {
     if (!query.trim()) return text
@@ -192,7 +204,7 @@ export default function HomePage() {
               placeholder="按关键词、VIN码或问题描述搜索..."
               className="pl-10 pr-4 py-3 text-lg"
               value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
             />
           </div>
         </div>
@@ -204,7 +216,7 @@ export default function HomePage() {
             <span className="text-sm font-medium text-gray-700">筛选:</span>
           </div>
 
-          <Select value={brandFilter} onValueChange={setBrandFilter}>
+          <Select value={brandFilter} onValueChange={(value: string) => setBrandFilter(value === "all" ? "" : value)}>
             <SelectTrigger className="w-32">
               <SelectValue placeholder="品牌" />
             </SelectTrigger>
@@ -218,7 +230,7 @@ export default function HomePage() {
             </SelectContent>
           </Select>
 
-          <Select value={systemFilter} onValueChange={setSystemFilter}>
+          <Select value={systemFilter} onValueChange={(value: string) => setSystemFilter(value === "all" ? "" : value)}>
             <SelectTrigger className="w-36">
               <SelectValue placeholder="系统" />
             </SelectTrigger>
@@ -232,7 +244,7 @@ export default function HomePage() {
             </SelectContent>
           </Select>
 
-          <Select value={statusFilter} onValueChange={setStatusFilter}>
+          <Select value={statusFilter} onValueChange={(value: string) => setStatusFilter(value === "all" ? "" : value)}>
             <SelectTrigger className="w-36">
               <SelectValue placeholder="状态" />
             </SelectTrigger>
@@ -316,11 +328,13 @@ export default function HomePage() {
                   <Badge variant="outline" className="text-xs">
                     {question.system}
                   </Badge>
-                  {question.tags.map((tag: string) => (
-                    <Badge key={tag} variant="secondary" className="text-xs">
-                      <Tag className="w-3 h-3 mr-1" />
-                      {searchQuery ? highlightText(tag, searchQuery) : tag}
-                    </Badge>
+                  {question.tags.map((tag) => (
+                    <React.Fragment key={tag}>
+                      <Badge variant="secondary" className="text-xs">
+                        <Tag className="w-3 h-3 mr-1" />
+                        {searchQuery ? highlightText(tag, searchQuery) : tag}
+                      </Badge>
+                    </React.Fragment>
                   ))}
                 </div>
               </CardContent>
