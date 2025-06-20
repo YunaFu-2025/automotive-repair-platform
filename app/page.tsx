@@ -5,15 +5,15 @@ import { Search, Filter, Clock, User, Bot, Tag, Car, Wrench, AlertCircle } from 
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge as UIBadgeUnsafe } from "@/components/ui/badge"
+import { Badge as RawBadge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 
 import type { Question } from "@/lib/types"
+import type { BadgeProps } from "@/components/ui/badge"
 
-// Cast to any to avoid strict prop type mismatch issues
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const UIBadge = UIBadgeUnsafe as any
+// Provide fully typed alias that allows variant & className props
+const Badge: React.FC<BadgeProps> = (props: BadgeProps) => <RawBadge {...props} />
 
 const mockQuestions: Question[] = [
   {
@@ -204,7 +204,7 @@ export default function HomePage() {
               placeholder="按关键词、VIN码或问题描述搜索..."
               className="pl-10 pr-4 py-3 text-lg"
               value={searchQuery}
-              onChange={(e) => handleSearch(e.target.value)}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleSearch(e.target.value)}
             />
           </div>
         </div>
@@ -283,7 +283,7 @@ export default function HomePage() {
                       {searchQuery ? highlightText(question.title, searchQuery) : question.title}
                     </Link>
                   </CardTitle>
-                  <UIBadge className={getStatusColor(question.status)}>
+                  <Badge className={getStatusColor(question.status)}>
                     <div className="flex items-center space-x-1">
                       {getStatusIcon(question.status)}
                       <span className="capitalize">
@@ -292,7 +292,7 @@ export default function HomePage() {
                          question.status === "ai-assisted" ? "AI协助" : question.status}
                       </span>
                     </div>
-                  </UIBadge>
+                  </Badge>
                 </div>
               </CardHeader>
               <CardContent>
@@ -325,15 +325,15 @@ export default function HomePage() {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <UIBadge variant="outline" className="text-xs">
+                  <Badge variant="outline" className="text-xs">
                     {question.system}
-                  </UIBadge>
+                  </Badge>
                   {question.tags.map((tag) => (
                     <React.Fragment key={tag}>
-                      <UIBadge variant="secondary" className="text-xs">
+                      <Badge variant="secondary" className="text-xs">
                         <Tag className="w-3 h-3 mr-1" />
                         {searchQuery ? highlightText(tag, searchQuery) : tag}
-                      </UIBadge>
+                      </Badge>
                     </React.Fragment>
                   ))}
                 </div>
