@@ -31,28 +31,28 @@ const lookupVIN = async (vin: string): Promise<VehicleInfo | null> => {
   // Mock VIN database
   const vinDatabase: Record<string, VehicleInfo> = {
     WBAVA31010NM12345: {
-      brand: "BMW",
-      model: "3 Series (F30)",
+      brand: "宝马",
+      model: "3系 (F30)",
       year: "2020",
-      engine: "2.0L Turbo I4",
-      transmission: "8-Speed Automatic",
-      system: ["Engine", "Transmission", "Electrical", "Braking", "Suspension"],
+      engine: "2.0L 涡轮增压直列四缸",
+      transmission: "8速自动变速箱",
+      system: ["发动机", "变速箱", "电气", "制动", "悬挂"],
     },
     LSGHE52U0EH123456: {
-      brand: "Lexus",
+      brand: "雷克萨斯",
       model: "ES 350",
       year: "2019",
       engine: "3.5L V6",
-      transmission: "8-Speed Automatic",
-      system: ["Engine", "Transmission", "Electrical", "Braking", "Suspension"],
+      transmission: "8速自动变速箱",
+      system: ["发动机", "变速箱", "电气", "制动", "悬挂"],
     },
     JH4KA8260MC123789: {
-      brand: "Acura",
+      brand: "讴歌",
       model: "TLX",
       year: "2021",
-      engine: "2.0L Turbo I4",
-      transmission: "10-Speed Automatic",
-      system: ["Engine", "Transmission", "Electrical", "Braking", "Suspension"],
+      engine: "2.0L 涡轮增压直列四缸",
+      transmission: "10速自动变速箱",
+      system: ["发动机", "变速箱", "电气", "制动", "悬挂"],
     },
   }
 
@@ -76,7 +76,7 @@ export default function AskQuestionPage() {
 
   const handleVinLookup = async () => {
     if (vin.length < 17) {
-      setVinError("VIN must be 17 characters long")
+      setVinError("VIN码必须是17位字符")
       return
     }
 
@@ -89,11 +89,11 @@ export default function AskQuestionPage() {
         setVehicleInfo(info)
         setVinError("")
       } else {
-        setVinError("Vehicle not found. Please verify the VIN number.")
+        setVinError("未找到车辆信息。请验证VIN码。")
         setVehicleInfo(null)
       }
     } catch (error) {
-      setVinError("Error looking up vehicle information. Please try again.")
+      setVinError("查找车辆信息时出错。请重试。")
       setVehicleInfo(null)
     } finally {
       setIsLookingUp(false)
@@ -140,6 +140,9 @@ export default function AskQuestionPage() {
       localStorage.setItem("questions", JSON.stringify([newQuestion]))
     }
 
+    // Show success message in Chinese
+    alert("问题提交成功！您将被重定向到主页。")
+
     // Navigate back to homepage, where the new question will appear
     router.push("/")
   }
@@ -162,33 +165,33 @@ export default function AskQuestionPage() {
     const input = `${title} ${description} ${system}`.toLowerCase()
 
     if (input.includes("misfire") || input.includes("p0301")) {
-      suggestions.push("Check ignition coils and spark plugs for cylinder 1")
-      suggestions.push("Inspect fuel injectors for proper spray pattern")
-      suggestions.push("Verify compression levels across all cylinders")
+      suggestions.push("检查1号气缸的点火线圈和火花塞")
+      suggestions.push("检查喷油器的喷射模式")
+      suggestions.push("验证所有气缸的压缩比")
     }
 
     if (input.includes("transmission") || input.includes("shift")) {
-      suggestions.push("Check transmission fluid level and condition")
-      suggestions.push("Inspect transmission control module for error codes")
-      suggestions.push("Test solenoid valve operation")
+      suggestions.push("检查变速箱油位和状况")
+      suggestions.push("检查变速箱控制模块的错误码")
+      suggestions.push("测试电磁阀操作")
     }
 
     if (input.includes("abs") || input.includes("brake")) {
-      suggestions.push("Check ABS wheel speed sensors for proper operation")
-      suggestions.push("Inspect brake fluid level and quality")
-      suggestions.push("Verify ABS module connections")
+      suggestions.push("检查ABS轮速传感器的正常工作")
+      suggestions.push("检查制动液位和质量")
+      suggestions.push("验证ABS模块连接")
     }
 
     if (input.includes("engine") && input.includes("cold")) {
-      suggestions.push("Check engine coolant temperature sensor")
-      suggestions.push("Inspect thermostat operation")
-      suggestions.push("Verify cold start fuel enrichment system")
+      suggestions.push("检查发动机冷却液温度传感器")
+      suggestions.push("检查节温器操作")
+      suggestions.push("验证冷启动燃油加浓系统")
     }
 
     if (suggestions.length === 0) {
-      suggestions.push("Perform comprehensive diagnostic scan")
-      suggestions.push("Check related service bulletins for this vehicle")
-      suggestions.push("Verify all electrical connections in affected system")
+      suggestions.push("执行全面诊断扫描")
+      suggestions.push("检查该车辆的相关服务公告")
+      suggestions.push("验证受影响系统中的所有电气连接")
     }
 
     setAiSuggestions(suggestions)
@@ -227,7 +230,7 @@ export default function AskQuestionPage() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-3">
               <Car className="w-8 h-8 text-blue-600" />
-              <h1 className="text-xl font-bold text-gray-900">AutoTech Q&A</h1>
+              <h1 className="text-xl font-bold text-gray-900">汽车技术问答</h1>
             </Link>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
               <span>tech_zhang_01</span>
@@ -237,248 +240,234 @@ export default function AskQuestionPage() {
       </header>
 
       <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Ask a Technical Question</h2>
-          <p className="text-gray-600">
-            Provide detailed information about the vehicle issue to get expert assistance from OEM engineers.
-          </p>
-        </div>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Form */}
+          <div className="lg:col-span-2 space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl">提交技术问题</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  {/* VIN Lookup */}
+                  <div className="space-y-2">
+                    <Label htmlFor="vin">车辆识别号 (VIN)</Label>
+                    <div className="flex space-x-2">
+                      <Input
+                        id="vin"
+                        type="text"
+                        placeholder="输入17位VIN码"
+                        value={vin}
+                        onChange={(e) => setVin(e.target.value.toUpperCase())}
+                        maxLength={17}
+                        className="flex-1"
+                      />
+                      <Button
+                        type="button"
+                        onClick={handleVinLookup}
+                        disabled={isLookingUp || vin.length !== 17}
+                        className="px-6"
+                      >
+                        {isLookingUp ? (
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "查找"
+                        )}
+                      </Button>
+                    </div>
+                    {vinError && (
+                      <Alert>
+                        <AlertDescription className="text-red-600">{vinError}</AlertDescription>
+                      </Alert>
+                    )}
+                  </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* VIN Input */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Car className="w-5 h-5" />
-                <span>Vehicle Identification</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <Label htmlFor="vin">VIN (Vehicle Identification Number) *</Label>
-                <div className="flex space-x-2 mt-1">
-                  <Input
-                    id="vin"
-                    value={vin}
-                    onChange={(e) => setVin(e.target.value.toUpperCase())}
-                    placeholder="Enter 17-character VIN"
-                    maxLength={17}
-                    className="font-mono"
-                    required
-                  />
-                  <Button type="button" onClick={handleVinLookup} disabled={vin.length !== 17 || isLookingUp}>
-                    {isLookingUp ? <Loader2 className="w-4 h-4 animate-spin" /> : "Lookup"}
-                  </Button>
-                </div>
-                {vinError && (
-                  <Alert className="mt-2 border-red-200 bg-red-50">
-                    <AlertDescription className="text-red-700">{vinError}</AlertDescription>
-                  </Alert>
-                )}
-              </div>
-
-              {vehicleInfo && (
-                <Alert className="border-green-200 bg-green-50">
-                  <CheckCircle className="w-4 h-4 text-green-600" />
-                  <AlertDescription className="text-green-700">
-                    <div className="font-medium mb-2">Vehicle Information Retrieved:</div>
-                    <div className="grid grid-cols-2 gap-2 text-sm">
-                      <div>
-                        <strong>Brand:</strong> {vehicleInfo.brand}
+                  {/* Vehicle Info Display */}
+                  {vehicleInfo && (
+                    <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center space-x-2 mb-3">
+                        <CheckCircle className="w-5 h-5 text-green-600" />
+                        <h3 className="font-medium text-green-800">车辆信息已找到</h3>
                       </div>
-                      <div>
-                        <strong>Model:</strong> {vehicleInfo.model}
-                      </div>
-                      <div>
-                        <strong>Year:</strong> {vehicleInfo.year}
-                      </div>
-                      <div>
-                        <strong>Engine:</strong> {vehicleInfo.engine}
-                      </div>
-                      <div>
-                        <strong>Transmission:</strong> {vehicleInfo.transmission}
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <span className="font-medium">品牌:</span> {vehicleInfo.brand}
+                        </div>
+                        <div>
+                          <span className="font-medium">型号:</span> {vehicleInfo.model}
+                        </div>
+                        <div>
+                          <span className="font-medium">年份:</span> {vehicleInfo.year}
+                        </div>
+                        <div>
+                          <span className="font-medium">发动机:</span> {vehicleInfo.engine}
+                        </div>
+                        <div>
+                          <span className="font-medium">变速箱:</span> {vehicleInfo.transmission}
+                        </div>
                       </div>
                     </div>
-                  </AlertDescription>
-                </Alert>
-              )}
-            </CardContent>
-          </Card>
+                  )}
 
-          {/* Question Details */}
-          <Card>
-            <CardHeader>
-              <CardTitle>Issue Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                {/* Left Column - Form Fields */}
-                <div className="lg:col-span-2 space-y-4">
-                  <div>
-                    <Label htmlFor="title">Issue Title *</Label>
+                  {/* Question Title */}
+                  <div className="space-y-2">
+                    <Label htmlFor="title">问题标题</Label>
                     <Input
                       id="title"
+                      type="text"
+                      placeholder="简要描述问题..."
                       value={title}
                       onChange={(e) => handleInputChange("title", e.target.value)}
-                      placeholder="Brief description of the issue"
                       required
                     />
                   </div>
 
-                  <div>
-                    <Label htmlFor="system">System Category *</Label>
-                    <Select
-                      value={selectedSystem}
-                      onValueChange={(value) => handleInputChange("system", value)}
-                      required
-                    >
+                  {/* System Selection */}
+                  <div className="space-y-2">
+                    <Label htmlFor="system">相关系统</Label>
+                    <Select value={selectedSystem} onValueChange={(value) => handleInputChange("system", value)}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select affected system" />
+                        <SelectValue placeholder="选择相关系统" />
                       </SelectTrigger>
                       <SelectContent>
                         {vehicleInfo?.system.map((sys) => (
                           <SelectItem key={sys} value={sys}>
                             {sys}
                           </SelectItem>
-                        )) || (
-                          <>
-                            <SelectItem value="Engine">Engine</SelectItem>
-                            <SelectItem value="Transmission">Transmission</SelectItem>
-                            <SelectItem value="Electrical">Electrical</SelectItem>
-                            <SelectItem value="Braking">Braking</SelectItem>
-                            <SelectItem value="Suspension">Suspension</SelectItem>
-                            <SelectItem value="HVAC">HVAC</SelectItem>
-                            <SelectItem value="Body">Body & Interior</SelectItem>
-                          </>
-                        )}
+                        )) || [
+                          "发动机",
+                          "变速箱",
+                          "电气",
+                          "制动",
+                          "悬挂",
+                          "空调",
+                          "其他",
+                        ].map((sys) => (
+                          <SelectItem key={sys} value={sys}>
+                            {sys}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>
 
-                  <div>
-                    <Label htmlFor="description">Detailed Fault Description *</Label>
+                  {/* Question Description */}
+                  <div className="space-y-2">
+                    <Label htmlFor="description">详细描述</Label>
                     <Textarea
                       id="description"
+                      placeholder="详细描述问题症状、已尝试的解决方案、错误码等..."
                       value={description}
                       onChange={(e) => handleInputChange("description", e.target.value)}
-                      placeholder="Provide detailed information about:
-• Symptoms observed
-• When the issue occurs
-• Diagnostic codes (if any)
-• Steps already taken
-• Customer complaints"
-                      rows={8}
+                      rows={6}
                       required
                     />
                   </div>
-                </div>
 
-                {/* Right Column - AI Suggestions */}
-                <div className="lg:col-span-1">
-                  {showSuggestions && (
-                    <div className="sticky top-4">
-                      <Card className="border-blue-200 bg-blue-50">
-                        <CardHeader className="pb-3">
-                          <CardTitle className="flex items-center space-x-2 text-base">
-                            <Bot className="w-5 h-5 text-blue-600" />
-                            <span>AI Maintenance Suggestions</span>
-                          </CardTitle>
-                        </CardHeader>
-                        <CardContent>
-                          {isGeneratingSuggestions ? (
-                            <div className="flex items-center space-x-2 text-blue-600">
-                              <Loader2 className="w-4 h-4 animate-spin" />
-                              <span className="text-sm">Analyzing issue...</span>
-                            </div>
-                          ) : (
-                            <div className="space-y-3">
-                              {aiSuggestions.map((suggestion, index) => (
-                                <div key={index} className="flex items-start space-x-2">
-                                  <div className="w-1.5 h-1.5 bg-blue-600 rounded-full mt-2 flex-shrink-0" />
-                                  <p className="text-sm text-blue-800">{suggestion}</p>
-                                </div>
-                              ))}
-                              {aiSuggestions.length > 0 && (
-                                <div className="mt-4 p-2 bg-blue-100 rounded text-xs text-blue-700">
-                                  💡 These are AI-generated suggestions. Please verify with official service procedures.
-                                </div>
-                              )}
-                            </div>
-                          )}
-                        </CardContent>
-                      </Card>
+                  {/* File Upload */}
+                  <div className="space-y-2">
+                    <Label>附件 (可选)</Label>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                      <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600 mb-2">拖拽文件到此处或点击上传</p>
+                      <input
+                        type="file"
+                        multiple
+                        onChange={handleFileUpload}
+                        className="hidden"
+                        id="file-upload"
+                        accept=".pdf,.jpg,.jpeg,.png,.txt"
+                      />
+                      <label htmlFor="file-upload" className="cursor-pointer">
+                        <Button type="button" variant="outline" size="sm">
+                          选择文件
+                        </Button>
+                      </label>
                     </div>
-                  )}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+                    {uploadedFiles.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium">已上传文件:</p>
+                        {uploadedFiles.map((file, index) => (
+                          <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                            <span className="text-sm">{file.name}</span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeFile(index)}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
 
-          {/* File Upload */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
-                <Upload className="w-5 h-5" />
-                <span>Supporting Materials</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                <p className="text-gray-600 mb-2">Upload images, videos, or diagnostic reports</p>
-                <input
-                  type="file"
-                  multiple
-                  accept="image/*,video/*,.pdf,.txt"
-                  onChange={handleFileUpload}
-                  className="hidden"
-                  id="file-upload"
-                />
-                <Label htmlFor="file-upload" className="cursor-pointer">
-                  <Button type="button" variant="outline">
-                    Choose Files
+                  {/* Submit Button */}
+                  <Button type="submit" className="w-full" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        提交中...
+                      </>
+                    ) : (
+                      "提交问题"
+                    )}
                   </Button>
-                </Label>
-              </div>
-
-              {uploadedFiles.length > 0 && (
-                <div className="mt-4 space-y-2">
-                  {uploadedFiles.map((file, index) => (
-                    <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
-                      <span className="text-sm text-gray-700">{file.name}</span>
-                      <Button type="button" variant="ghost" size="sm" onClick={() => removeFile(index)}>
-                        <X className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
-
-          {/* Submit */}
-          <div className="flex justify-end space-x-4">
-            <Link href="/">
-              <Button type="button" variant="outline">
-                Cancel
-              </Button>
-            </Link>
-            <Button
-              type="submit"
-              disabled={!vehicleInfo || !title || !description || !selectedSystem || isSubmitting}
-              className="bg-blue-600 hover:bg-blue-700"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                  Submitting...
-                </>
-              ) : (
-                "Submit Question"
-              )}
-            </Button>
+                </form>
+              </CardContent>
+            </Card>
           </div>
-        </form>
+
+          {/* AI Suggestions Sidebar */}
+          <div className="space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg flex items-center space-x-2">
+                  <Bot className="w-5 h-5" />
+                  <span>AI诊断建议</span>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                {isGeneratingSuggestions ? (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <span>生成建议中...</span>
+                  </div>
+                ) : showSuggestions && aiSuggestions.length > 0 ? (
+                  <div className="space-y-3">
+                    {aiSuggestions.map((suggestion, index) => (
+                      <div key={index} className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                        <p className="text-sm text-blue-800">{suggestion}</p>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-sm text-gray-500">
+                    开始输入问题描述，AI将提供相关诊断建议
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Tips */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">提交提示</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="text-sm text-gray-600 space-y-2">
+                  <p>• 提供详细的症状描述</p>
+                  <p>• 包含相关的错误码</p>
+                  <p>• 说明已尝试的解决方案</p>
+                  <p>• 上传相关的诊断报告或图片</p>
+                  <p>• 指定具体的车辆系统和型号</p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
       </main>
     </div>
   )

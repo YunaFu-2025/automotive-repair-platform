@@ -1,30 +1,30 @@
-# Automotive repair platform
+# 汽车维修平台
 
-*Automatically synced with your [v0.dev](https://v0.dev) deployments*
+*自动与您的 [v0.dev](https://v0.dev) 部署同步*
 
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/yunafus-projects/v0-automotive-repair-platform)
-[![Built with v0](https://img.shields.io/badge/Built%20with-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/If75xtppjfG)
+[![部署在 Vercel 上](https://img.shields.io/badge/部署在-Vercel-black?style=for-the-badge&logo=vercel)](https://vercel.com/yunafus-projects/v0-automotive-repair-platform)
+[![使用 v0 构建](https://img.shields.io/badge/使用-v0.dev-black?style=for-the-badge)](https://v0.dev/chat/projects/If75xtppjfG)
 
-## Overview
+## 概述
 
-This repository will stay in sync with your deployed chats on [v0.dev](https://v0.dev).
-Any changes you make to your deployed app will be automatically pushed to this repository from [v0.dev](https://v0.dev).
+此仓库将与您在 [v0.dev](https://v0.dev) 上的部署聊天保持同步。
+您对部署应用所做的任何更改都将从 [v0.dev](https://v0.dev) 自动推送到此仓库。
 
-## Deployment
+## 部署
 
-Your project is live at:
+您的项目已部署在：
 
 **[https://vercel.com/yunafus-projects/v0-automotive-repair-platform](https://vercel.com/yunafus-projects/v0-automotive-repair-platform)**
 
-## Build your app
+## 构建您的应用
 
-Continue building your app on:
+继续在以下位置构建您的应用：
 
 **[https://v0.dev/chat/projects/If75xtppjfG](https://v0.dev/chat/projects/If75xtppjfG)**
 
-## How It Works
+## 工作原理
 
-1. Create and modify your project using [v0.dev](https://v0.dev)
-2. Deploy your chats from the v0 interface
-3. Changes are automatically pushed to this repository
-4. Vercel deploys the latest version from this repository
+1. 使用 [v0.dev](https://v0.dev) 创建和修改您的项目
+2. 从 v0 界面部署您的聊天
+3. 更改会自动推送到此仓库
+4. Vercel 从此仓库部署最新版本

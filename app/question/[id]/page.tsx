@@ -31,18 +31,18 @@ interface AIsuggestion {
 
 const mockQuestion = {
   id: "1",
-  title: "Engine misfire on cold start - P0301 code",
+  title: "冷启动发动机失火 - P0301故障码",
   description:
-    "Customer reports rough idle and engine misfire only during cold starts. The issue occurs primarily in the morning or after the vehicle has been parked for several hours. No issues during warm operation. Diagnostic scan shows P0301 - Cylinder 1 Misfire Detected.",
+    "客户报告仅在冷启动时出现怠速不稳和发动机失火。问题主要发生在早晨或车辆停放数小时后。热车运行时无问题。诊断扫描显示P0301 - 检测到1号气缸失火。",
   vin: "WBAVA31010NM12345",
-  brand: "BMW",
-  model: "3 Series (F30)",
+  brand: "宝马",
+  model: "3系 (F30)",
   year: "2020",
-  system: "Engine",
+  system: "发动机",
   status: "answered",
   submittedAt: "2024-01-15T10:30:00Z",
   submittedBy: "tech_zhang_01",
-  tags: ["P0301", "Cold Start", "Misfire"],
+  tags: ["P0301", "冷启动", "失火"],
 }
 
 const mockMessages: Message[] = [
@@ -51,16 +51,16 @@ const mockMessages: Message[] = [
     author: "tech_zhang_01",
     role: "technician",
     content:
-      "Customer reports rough idle and engine misfire only during cold starts. The issue occurs primarily in the morning or after the vehicle has been parked for several hours. No issues during warm operation. Diagnostic scan shows P0301 - Cylinder 1 Misfire Detected.\n\nSteps already taken:\n- Checked spark plugs (appear normal)\n- Verified fuel pressure (within spec)\n- No obvious vacuum leaks detected",
+      "客户报告仅在冷启动时出现怠速不稳和发动机失火。问题主要发生在早晨或车辆停放数小时后。热车运行时无问题。诊断扫描显示P0301 - 检测到1号气缸失火。\n\n已采取的步骤:\n- 检查火花塞（外观正常）\n- 验证燃油压力（在规格范围内）\n- 未检测到明显的真空泄漏",
     timestamp: "2024-01-15T10:30:00Z",
     attachments: ["diagnostic_report.pdf", "engine_bay.jpg"],
   },
   {
     id: "2",
-    author: "BMW Engineer Liu",
+    author: "宝马工程师刘",
     role: "engineer",
     content:
-      "Thank you for the detailed information. Based on the symptoms and P0301 code specific to cold starts, this is likely related to carbon buildup on the intake valves, which is common in direct injection engines.\n\nRecommended diagnostic steps:\n1. Perform cylinder compression test\n2. Check intake valve carbon deposits using borescope\n3. Verify injector spray pattern for cylinder 1\n4. Test ignition coil resistance and spark plug gap\n\nIf carbon buildup is confirmed, recommend intake valve cleaning service.",
+      "感谢您提供的详细信息。根据症状和冷启动特有的P0301故障码，这很可能与直喷发动机进气门积碳有关，这是常见问题。\n\n推荐的诊断步骤:\n1. 执行气缸压缩测试\n2. 使用内窥镜检查进气门积碳情况\n3. 验证1号气缸喷油器喷射模式\n4. 测试点火线圈电阻和火花塞间隙\n\n如果确认积碳，建议进行进气门清洁服务。",
     timestamp: "2024-01-15T14:20:00Z",
   },
   {
@@ -68,15 +68,15 @@ const mockMessages: Message[] = [
     author: "tech_zhang_01",
     role: "technician",
     content:
-      "Thank you for the guidance. Performed borescope inspection and confirmed significant carbon buildup on intake valves. Compression test shows cylinder 1 at 145 psi vs 165 psi on other cylinders.\n\nWill proceed with intake valve cleaning service. Should I also recommend preventive maintenance schedule to customer?",
+      "感谢您的指导。执行了内窥镜检查并确认进气门有显著积碳。压缩测试显示1号气缸145 psi，其他气缸165 psi。\n\n将进行进气门清洁服务。是否也应该向客户推荐预防性维护计划？",
     timestamp: "2024-01-15T16:45:00Z",
   },
   {
     id: "4",
-    author: "BMW Engineer Liu",
+    author: "宝马工程师刘",
     role: "engineer",
     content:
-      "Excellent diagnosis! Yes, definitely recommend:\n- Use of Top Tier gasoline\n- Periodic intake cleaning every 30,000 miles\n- Consider adding fuel system cleaner every 5,000 miles\n\nThis should resolve the current issue and prevent future occurrences. Please update with results after the cleaning service.",
+      "出色的诊断！是的，一定要推荐:\n- 使用顶级汽油\n- 每30,000英里定期进气清洁\n- 考虑每5,000英里添加燃油系统清洁剂\n\n这应该能解决当前问题并防止未来发生。清洁服务后请更新结果。",
     timestamp: "2024-01-15T17:30:00Z",
   },
 ]
@@ -85,23 +85,23 @@ const mockAISuggestions: AIsuggestion[] = [
   {
     id: "1",
     type: "diagnostic",
-    title: "Common P0301 Diagnostic Steps",
+    title: "P0301常见诊断步骤",
     content:
-      "For P0301 codes on BMW F30 engines, check: 1) Ignition coil resistance, 2) Carbon deposits on intake valves, 3) Fuel injector flow rate, 4) Compression test results",
+      "对于宝马F30发动机的P0301故障码，检查：1）点火线圈电阻，2）进气门积碳，3）喷油器流量，4）压缩测试结果",
   },
   {
     id: "2",
     type: "reference",
-    title: "BMW Service Bulletin",
+    title: "宝马服务公告",
     content:
-      "BMW SIB B13 02 19: Carbon deposits on intake valves in N20/N26 engines. Recommends walnut shell blasting for cleaning.",
+      "宝马SIB B13 02 19：N20/N26发动机进气门积碳。建议使用核桃壳喷砂清洁。",
   },
   {
     id: "3",
     type: "similar",
-    title: "Similar Cases",
+    title: "类似案例",
     content:
-      "15 similar cases resolved in the past 6 months. 80% were carbon-related, 15% ignition coil failure, 5% fuel injector issues.",
+      "过去6个月解决了15个类似案例。80%为积碳相关，15%点火线圈故障，5%喷油器问题。",
   },
 ]
 
@@ -116,7 +116,7 @@ export default function QuestionPage() {
 
     const message: Message = {
       id: Date.now().toString(),
-      author: "BMW Engineer Liu",
+      author: "宝马工程师刘",
       role: "engineer",
       content: newMessage,
       timestamp: new Date().toISOString(),
@@ -171,10 +171,10 @@ export default function QuestionPage() {
           <div className="flex justify-between items-center h-16">
             <Link href="/" className="flex items-center space-x-3">
               <Car className="w-8 h-8 text-blue-600" />
-              <h1 className="text-xl font-bold text-gray-900">AutoTech Q&A</h1>
+              <h1 className="text-xl font-bold text-gray-900">汽车技术问答</h1>
             </Link>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
-              <span>BMW Engineer Liu</span>
+              <span>宝马工程师刘</span>
             </div>
           </div>
         </div>
@@ -191,7 +191,7 @@ export default function QuestionPage() {
                   <CardTitle className="text-xl">{mockQuestion.title}</CardTitle>
                   <Badge className="bg-green-100 text-green-800">
                     <User className="w-4 h-4 mr-1" />
-                    Answered
+                    已回答
                   </Badge>
                 </div>
 
@@ -202,15 +202,22 @@ export default function QuestionPage() {
                       {mockQuestion.brand} {mockQuestion.model} ({mockQuestion.year})
                     </span>
                   </div>
-                  <div>VIN: {mockQuestion.vin}</div>
+                  <div className="flex items-center space-x-1">
+                    <span>VIN: {mockQuestion.vin.slice(-6)}</span>
+                  </div>
                   <div className="flex items-center space-x-1">
                     <Clock className="w-4 h-4" />
                     <span>{new Date(mockQuestion.submittedAt).toLocaleDateString()}</span>
                   </div>
-                  <div>By: {mockQuestion.submittedBy}</div>
+                  <div className="flex items-center space-x-1">
+                    <User className="w-4 h-4" />
+                    <span>提交者: {mockQuestion.submittedBy}</span>
+                  </div>
                 </div>
 
-                <div className="flex flex-wrap gap-2 mt-3">
+                <p className="text-gray-700 mt-4">{mockQuestion.description}</p>
+
+                <div className="flex flex-wrap gap-2 mt-4">
                   <Badge variant="outline">{mockQuestion.system}</Badge>
                   {mockQuestion.tags.map((tag) => (
                     <Badge key={tag} variant="secondary">
@@ -219,187 +226,196 @@ export default function QuestionPage() {
                   ))}
                 </div>
               </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 whitespace-pre-line">{mockQuestion.description}</p>
-              </CardContent>
             </Card>
 
-            {/* Conversation Thread */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <MessageCircle className="w-5 h-5" />
-                  <span>Technical Discussion</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                {messages.map((message) => (
-                  <div key={message.id} className="flex space-x-4">
-                    <Avatar>
-                      <AvatarFallback className={getRoleColor(message.role)}>
-                        {getRoleIcon(message.role)}
-                      </AvatarFallback>
-                    </Avatar>
-
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 mb-2">
-                        <span className="font-medium text-gray-900">{message.author}</span>
-                        <Badge variant="outline" className="text-xs">
-                          {message.role}
-                        </Badge>
-                        <span className="text-xs text-gray-500">{new Date(message.timestamp).toLocaleString()}</span>
-                      </div>
-
-                      <div className="bg-gray-50 rounded-lg p-4">
-                        <p className="text-gray-700 whitespace-pre-line">{message.content}</p>
-
-                        {message.attachments && (
-                          <div className="mt-3 flex flex-wrap gap-2">
+            {/* Messages */}
+            <div className="space-y-4">
+              {messages.map((message) => (
+                <Card key={message.id}>
+                  <CardContent className="pt-6">
+                    <div className="flex items-start space-x-3">
+                      <Avatar className="w-8 h-8">
+                        <AvatarFallback className={getRoleColor(message.role)}>
+                          {getRoleIcon(message.role)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-medium text-sm">{message.author}</span>
+                          <Badge className={getRoleColor(message.role)} size="sm">
+                            {message.role === "engineer" ? "工程师" : 
+                             message.role === "technician" ? "技师" : 
+                             message.role === "ai" ? "AI" : message.role}
+                          </Badge>
+                          <span className="text-xs text-gray-500">
+                            {new Date(message.timestamp).toLocaleString()}
+                          </span>
+                        </div>
+                        <div className="prose prose-sm max-w-none">
+                          <p className="whitespace-pre-wrap">{message.content}</p>
+                        </div>
+                        {message.attachments && message.attachments.length > 0 && (
+                          <div className="flex flex-wrap gap-2 mt-3">
                             {message.attachments.map((attachment, index) => (
                               <div
                                 key={index}
-                                className="flex items-center space-x-1 text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded"
+                                className="flex items-center space-x-1 px-2 py-1 bg-gray-100 rounded text-xs"
                               >
-                                {attachment.endsWith(".pdf") ? (
-                                  <FileText className="w-3 h-3" />
-                                ) : (
-                                  <ImageIcon className="w-3 h-3" />
-                                )}
+                                <FileText className="w-3 h-3" />
                                 <span>{attachment}</span>
                               </div>
                             ))}
                           </div>
                         )}
                       </div>
-
-                      <div className="flex items-center space-x-4 mt-2">
-                        <Button variant="ghost" size="sm">
-                          <ThumbsUp className="w-4 h-4 mr-1" />
-                          Helpful
-                        </Button>
-                      </div>
                     </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+
+            {/* Reply Form */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">回复</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleSubmitMessage} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="reply">消息</Label>
+                    <Textarea
+                      id="reply"
+                      placeholder="输入您的回复..."
+                      value={newMessage}
+                      onChange={(e) => setNewMessage(e.target.value)}
+                      rows={4}
+                    />
                   </div>
-                ))}
 
-                {/* Reply Form */}
-                <form onSubmit={handleSubmitMessage} className="border-t pt-6">
-                  <div className="flex space-x-4">
-                    <Avatar>
-                      <AvatarFallback className="bg-blue-100 text-blue-800">
-                        <User className="w-4 h-4" />
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 space-y-3">
-                      <Textarea
-                        value={newMessage}
-                        onChange={(e) => setNewMessage(e.target.value)}
-                        placeholder="Provide additional technical guidance or ask follow-up questions..."
-                        rows={4}
+                  {/* File Upload for Reply */}
+                  <div className="space-y-2">
+                    <Label>附件 (可选)</Label>
+                    <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+                      <Upload className="w-6 h-6 text-gray-400 mx-auto mb-2" />
+                      <p className="text-sm text-gray-600 mb-2">上传图片、视频或诊断报告</p>
+                      <input
+                        type="file"
+                        multiple
+                        onChange={handleReplyFileUpload}
+                        className="hidden"
+                        id="reply-file-upload"
+                        accept=".pdf,.jpg,.jpeg,.png,.txt"
                       />
-
-                      {/* File Upload */}
-                      <div className="flex items-center space-x-4">
-                        <input
-                          type="file"
-                          multiple
-                          accept="image/*,video/*,.pdf,.txt,.doc,.docx"
-                          onChange={handleReplyFileUpload}
-                          className="hidden"
-                          id="reply-file-upload"
-                        />
-                        <Label htmlFor="reply-file-upload" className="cursor-pointer">
-                          <Button type="button" variant="outline" size="sm">
-                            <Upload className="w-4 h-4 mr-2" />
-                            Attach Files
-                          </Button>
-                        </Label>
-                      </div>
-
-                      {/* Uploaded Files Display */}
-                      {replyAttachments.length > 0 && (
-                        <div className="space-y-2">
-                          {replyAttachments.map((file, index) => (
-                            <div
-                              key={index}
-                              className="flex items-center justify-between p-2 bg-gray-50 rounded text-sm"
-                            >
-                              <div className="flex items-center space-x-2">
-                                {file.type.startsWith("image/") ? (
-                                  <ImageIcon className="w-4 h-4 text-blue-500" />
-                                ) : file.type.startsWith("video/") ? (
-                                  <FileText className="w-4 h-4 text-green-500" />
-                                ) : (
-                                  <FileText className="w-4 h-4 text-gray-500" />
-                                )}
-                                <span className="text-gray-700">{file.name}</span>
-                                <span className="text-gray-500">({(file.size / 1024 / 1024).toFixed(1)} MB)</span>
-                              </div>
-                              <Button type="button" variant="ghost" size="sm" onClick={() => removeReplyFile(index)}>
-                                <X className="w-4 h-4" />
-                              </Button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="flex justify-end">
-                        <Button type="submit" disabled={!newMessage.trim()}>
-                          Post Reply
+                      <label htmlFor="reply-file-upload" className="cursor-pointer">
+                        <Button type="button" variant="outline" size="sm">
+                          选择文件
                         </Button>
-                      </div>
+                      </label>
                     </div>
+                    {replyAttachments.length > 0 && (
+                      <div className="space-y-2">
+                        <p className="text-sm font-medium">已上传文件:</p>
+                        {replyAttachments.map((file, index) => (
+                          <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded">
+                            <span className="text-sm">{file.name}</span>
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="sm"
+                              onClick={() => removeReplyFile(index)}
+                            >
+                              <X className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex justify-end space-x-2">
+                    <Button type="submit" disabled={!newMessage.trim()}>
+                      发送回复
+                    </Button>
                   </div>
                 </form>
               </CardContent>
             </Card>
           </div>
 
-          {/* AI Assistance Sidebar */}
+          {/* Sidebar */}
           <div className="space-y-6">
+            {/* AI Suggestions */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2 text-lg">
-                  <Lightbulb className="w-5 h-5 text-yellow-500" />
-                  <span>AI Assistance</span>
+                <CardTitle className="text-lg flex items-center space-x-2">
+                  <Lightbulb className="w-5 h-5" />
+                  <span>AI建议</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-4">
                 {mockAISuggestions.map((suggestion) => (
-                  <Alert key={suggestion.id} className="border-blue-200 bg-blue-50">
-                    <Bot className="w-4 h-4 text-blue-600" />
-                    <AlertDescription>
-                      <div className="font-medium text-blue-800 mb-1">{suggestion.title}</div>
-                      <p className="text-blue-700 text-sm">{suggestion.content}</p>
-                    </AlertDescription>
-                  </Alert>
+                  <div key={suggestion.id} className="p-3 border rounded-lg">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <Badge
+                        variant={
+                          suggestion.type === "diagnostic"
+                            ? "default"
+                            : suggestion.type === "reference"
+                            ? "secondary"
+                            : "outline"
+                        }
+                        size="sm"
+                      >
+                        {suggestion.type === "diagnostic" ? "诊断" : 
+                         suggestion.type === "reference" ? "参考" : 
+                         suggestion.type === "similar" ? "类似" : suggestion.type}
+                      </Badge>
+                    </div>
+                    <h4 className="font-medium text-sm mb-1">{suggestion.title}</h4>
+                    <p className="text-xs text-gray-600">{suggestion.content}</p>
+                  </div>
                 ))}
               </CardContent>
             </Card>
 
-            {/* Vehicle Info */}
+            {/* Quick Actions */}
             <Card>
               <CardHeader>
-                <CardTitle className="flex items-center space-x-2 text-lg">
-                  <Car className="w-5 h-5" />
-                  <span>Vehicle Details</span>
-                </CardTitle>
+                <CardTitle className="text-lg">快速操作</CardTitle>
               </CardHeader>
-              <CardContent className="space-y-2 text-sm">
-                <div>
-                  <strong>Brand:</strong> {mockQuestion.brand}
+              <CardContent className="space-y-2">
+                <Button variant="outline" size="sm" className="w-full justify-start">
+                  <ThumbsUp className="w-4 h-4 mr-2" />
+                  标记为已解决
+                </Button>
+                <Button variant="outline" size="sm" className="w-full justify-start">
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  请求更多信息
+                </Button>
+                <Button variant="outline" size="sm" className="w-full justify-start">
+                  <FileText className="w-4 h-4 mr-2" />
+                  生成服务报告
+                </Button>
+              </CardContent>
+            </Card>
+
+            {/* Related Questions */}
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-lg">相关问题</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                  <h4 className="font-medium text-sm mb-1">宝马N20发动机冷启动问题</h4>
+                  <p className="text-xs text-gray-600">3个回复 • 2天前</p>
                 </div>
-                <div>
-                  <strong>Model:</strong> {mockQuestion.model}
+                <div className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                  <h4 className="font-medium text-sm mb-1">P0301故障码诊断流程</h4>
+                  <p className="text-xs text-gray-600">8个回复 • 1周前</p>
                 </div>
-                <div>
-                  <strong>Year:</strong> {mockQuestion.year}
-                </div>
-                <div>
-                  <strong>VIN:</strong> {mockQuestion.vin}
-                </div>
-                <div>
-                  <strong>System:</strong> {mockQuestion.system}
+                <div className="p-3 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                  <h4 className="font-medium text-sm mb-1">进气门积碳清洁方法</h4>
+                  <p className="text-xs text-gray-600">12个回复 • 2周前</p>
                 </div>
               </CardContent>
             </Card>

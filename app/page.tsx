@@ -14,44 +14,44 @@ import type { Question } from "@/lib/types"
 const mockQuestions: Question[] = [
   {
     id: "1",
-    title: "Engine misfire on cold start - P0301 code",
-    description: "Customer reports rough idle and engine misfire only during cold starts...",
+    title: "冷启动发动机失火 - P0301故障码",
+    description: "客户报告仅在冷启动时出现怠速不稳和发动机失火...",
     vin: "WBAVA31010NM12345",
-    brand: "BMW",
-    model: "3 Series",
-    system: "Engine",
+    brand: "宝马",
+    model: "3系",
+    system: "发动机",
     status: "answered",
     submittedAt: "2024-01-15T10:30:00Z",
     submittedBy: "tech_zhang_01",
-    answeredBy: "BMW Engineer Liu",
-    tags: ["P0301", "Cold Start", "Misfire"],
+    answeredBy: "宝马工程师刘",
+    tags: ["P0301", "冷启动", "失火"],
   },
   {
     id: "2",
-    title: "Transmission shift delay in D mode",
-    description: "Automatic transmission shows delayed engagement from P to D...",
+    title: "D档位变速箱换挡延迟",
+    description: "自动变速箱从P档到D档显示延迟接合...",
     vin: "LSGHE52U0EH123456",
-    brand: "Lexus",
+    brand: "雷克萨斯",
     model: "ES 350",
-    system: "Transmission",
+    system: "变速箱",
     status: "ai-assisted",
     submittedAt: "2024-01-14T14:20:00Z",
     submittedBy: "tech_wang_05",
-    answeredBy: "AI Assistant",
-    tags: ["Transmission", "Shift Delay", "ATF"],
+    answeredBy: "AI助手",
+    tags: ["变速箱", "换挡延迟", "ATF"],
   },
   {
     id: "3",
-    title: "ABS warning light intermittent",
-    description: "ABS warning light comes on randomly during driving...",
+    title: "ABS警告灯间歇性亮起",
+    description: "ABS警告灯在行驶过程中随机亮起...",
     vin: "JH4KA8260MC123789",
-    brand: "Acura",
+    brand: "讴歌",
     model: "TLX",
-    system: "Braking",
+    system: "制动",
     status: "pending",
     submittedAt: "2024-01-14T09:15:00Z",
     submittedBy: "tech_li_03",
-    tags: ["ABS", "Warning Light", "Intermittent"],
+    tags: ["ABS", "警告灯", "间歇性"],
   },
 ]
 
@@ -158,13 +158,13 @@ export default function HomePage() {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <Car className="w-8 h-8 text-blue-600" />
-              <h1 className="text-xl font-bold text-gray-900">AutoTech Q&A</h1>
+              <h1 className="text-xl font-bold text-gray-900">汽车技术问答</h1>
             </div>
             <div className="flex items-center space-x-4">
               <Link href="/ask">
                 <Button className="bg-blue-600 hover:bg-blue-700">
                   <Wrench className="w-4 h-4 mr-2" />
-                  Ask Question
+                  提问
                 </Button>
               </Link>
               <div className="flex items-center space-x-2 text-sm text-gray-600">
@@ -179,9 +179,9 @@ export default function HomePage() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Hero Section */}
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Professional Automotive Technical Support</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-4">专业汽车技术支持</h2>
           <p className="text-lg text-gray-600 mb-8">
-            Connect with OEM engineers and get expert solutions for complex automotive issues
+            连接OEM工程师，获取复杂汽车问题的专家解决方案
           </p>
 
           {/* Search Bar */}
@@ -189,7 +189,7 @@ export default function HomePage() {
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
             <Input
               type="text"
-              placeholder="Search by keywords, VIN, or issue description..."
+              placeholder="按关键词、VIN码或问题描述搜索..."
               className="pl-10 pr-4 py-3 text-lg"
               value={searchQuery}
               onChange={(e) => handleSearch(e.target.value)}
@@ -201,46 +201,46 @@ export default function HomePage() {
         <div className="flex flex-wrap gap-4 mb-6 p-4 bg-white rounded-lg border border-gray-200">
           <div className="flex items-center space-x-2">
             <Filter className="w-4 h-4 text-gray-500" />
-            <span className="text-sm font-medium text-gray-700">Filters:</span>
+            <span className="text-sm font-medium text-gray-700">筛选:</span>
           </div>
 
           <Select value={brandFilter} onValueChange={setBrandFilter}>
             <SelectTrigger className="w-32">
-              <SelectValue placeholder="Brand" />
+              <SelectValue placeholder="品牌" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Brands</SelectItem>
-              <SelectItem value="BMW">BMW</SelectItem>
-              <SelectItem value="Lexus">Lexus</SelectItem>
-              <SelectItem value="Acura">Acura</SelectItem>
-              <SelectItem value="Mercedes">Mercedes</SelectItem>
-              <SelectItem value="Audi">Audi</SelectItem>
+              <SelectItem value="all">所有品牌</SelectItem>
+              <SelectItem value="宝马">宝马</SelectItem>
+              <SelectItem value="雷克萨斯">雷克萨斯</SelectItem>
+              <SelectItem value="讴歌">讴歌</SelectItem>
+              <SelectItem value="奔驰">奔驰</SelectItem>
+              <SelectItem value="奥迪">奥迪</SelectItem>
             </SelectContent>
           </Select>
 
           <Select value={systemFilter} onValueChange={setSystemFilter}>
             <SelectTrigger className="w-36">
-              <SelectValue placeholder="System" />
+              <SelectValue placeholder="系统" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Systems</SelectItem>
-              <SelectItem value="Engine">Engine</SelectItem>
-              <SelectItem value="Transmission">Transmission</SelectItem>
-              <SelectItem value="Braking">Braking</SelectItem>
-              <SelectItem value="Electrical">Electrical</SelectItem>
-              <SelectItem value="Suspension">Suspension</SelectItem>
+              <SelectItem value="all">所有系统</SelectItem>
+              <SelectItem value="发动机">发动机</SelectItem>
+              <SelectItem value="变速箱">变速箱</SelectItem>
+              <SelectItem value="制动">制动</SelectItem>
+              <SelectItem value="电气">电气</SelectItem>
+              <SelectItem value="悬挂">悬挂</SelectItem>
             </SelectContent>
           </Select>
 
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-36">
-              <SelectValue placeholder="Status" />
+              <SelectValue placeholder="状态" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All Status</SelectItem>
-              <SelectItem value="answered">Answered</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="ai-assisted">AI-Assisted</SelectItem>
+              <SelectItem value="all">所有状态</SelectItem>
+              <SelectItem value="answered">已回答</SelectItem>
+              <SelectItem value="pending">待处理</SelectItem>
+              <SelectItem value="ai-assisted">AI协助</SelectItem>
             </SelectContent>
           </Select>
 
@@ -255,7 +255,7 @@ export default function HomePage() {
                 setFilteredQuestions(questions)
               }}
             >
-              Clear Filters
+              清除筛选
             </Button>
           )}
         </div>
@@ -274,7 +274,11 @@ export default function HomePage() {
                   <Badge className={getStatusColor(question.status)}>
                     <div className="flex items-center space-x-1">
                       {getStatusIcon(question.status)}
-                      <span className="capitalize">{question.status.replace("-", " ")}</span>
+                      <span className="capitalize">
+                        {question.status === "answered" ? "已回答" : 
+                         question.status === "pending" ? "待处理" : 
+                         question.status === "ai-assisted" ? "AI协助" : question.status}
+                      </span>
                     </div>
                   </Badge>
                 </div>
@@ -303,7 +307,7 @@ export default function HomePage() {
                   {question.answeredBy && (
                     <div className="flex items-center space-x-1">
                       <User className="w-4 h-4" />
-                      <span>Answered by {question.answeredBy}</span>
+                      <span>回答者: {question.answeredBy}</span>
                     </div>
                   )}
                 </div>
@@ -327,8 +331,8 @@ export default function HomePage() {
         {filteredQuestions.length === 0 && (
           <div className="text-center py-12">
             <AlertCircle className="w-12 h-12 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">No questions found</h3>
-            <p className="text-gray-600">Try adjusting your search criteria or filters.</p>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">未找到问题</h3>
+            <p className="text-gray-600">请尝试调整搜索条件或筛选器。</p>
           </div>
         )}
       </main>
