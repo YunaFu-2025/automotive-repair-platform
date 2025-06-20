@@ -242,7 +242,7 @@ export default function QuestionPage() {
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center space-x-2">
                           <span className="font-medium text-sm">{message.author}</span>
-                          <Badge className={getRoleColor(message.role)} size="sm">
+                          <Badge className={`${getRoleColor(message.role)} text-xxs`}>
                             {message.role === "engineer" ? "工程师" : 
                              message.role === "technician" ? "技师" : 
                              message.role === "ai" ? "AI" : message.role}
@@ -364,7 +364,7 @@ export default function QuestionPage() {
                             ? "secondary"
                             : "outline"
                         }
-                        size="sm"
+                        className="text-xxs"
                       >
                         {suggestion.type === "diagnostic" ? "诊断" : 
                          suggestion.type === "reference" ? "参考" : 
