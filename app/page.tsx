@@ -55,6 +55,8 @@ const mockQuestions: Question[] = [
   },
 ]
 
+const sortByDateDesc = (a: Question, b: Question) => new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime()
+
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("")
   const [brandFilter, setBrandFilter] = useState("")
@@ -67,7 +69,7 @@ export default function HomePage() {
   useEffect(() => {
     const stored: Question[] =
       typeof window !== "undefined" ? (JSON.parse(localStorage.getItem("questions") || "[]") as Question[]) : []
-    const combined = [...mockQuestions, ...stored]
+    const combined = [...mockQuestions, ...stored].sort(sortByDateDesc)
     setQuestions(combined)
     setFilteredQuestions(combined)
   }, [])
@@ -119,7 +121,7 @@ export default function HomePage() {
       filtered = filtered.filter((q: Question) => q.status === status)
     }
 
-    setFilteredQuestions(filtered)
+    setFilteredQuestions(filtered.sort(sortByDateDesc))
   }
 
   const getStatusColor = (status: string) => {
