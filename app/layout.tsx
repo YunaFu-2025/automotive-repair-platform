@@ -16,6 +16,11 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: '汽车技术问答平台',
   description: '专业汽车技术支持平台，连接技师与OEM工程师',
+  icons: {
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/automotive-repair-logo.svg',
+  },
 }
 
 export default function RootLayout({
